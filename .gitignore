@@ -1,0 +1,26 @@
+# Compilation
+**/*.py[cod]
+**/*__pycache__/
+
+# Distribution/Packaging
+build/
+dist/
+eggs/
+.eggs/
+*.egg-info/
+
+# Virtual Environment
+venv/
+
+# MyPy
+.mypy_cache/
+
+# Pytest
+.pytest_cache/
+
+# IDE
+.idea/
+.vscode/
+
+# Mac
+**/*.DS_Store
