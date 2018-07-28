@@ -1,11 +1,12 @@
-from . import urlscan
-from . import utils
-
 import argparse
 import os
 import pathlib
 import uuid
 from typing import Dict, Optional
+
+import urlscan
+import utils
+
 
 def __main__() -> None:
     parser: argparse.ArgumentParser = utils.create_arg_parser()
