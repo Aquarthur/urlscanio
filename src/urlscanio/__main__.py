@@ -4,11 +4,11 @@ import pathlib
 import uuid
 from typing import Dict, Optional
 
-import urlscan
-import utils
+from . import urlscan
+from . import utils
 
 
-def __main__() -> None:
+def main() -> None:
     parser: argparse.ArgumentParser = utils.create_arg_parser()
     args: argparse.Namespace = parser.parse_args()
     utils.validate_arguments(args)

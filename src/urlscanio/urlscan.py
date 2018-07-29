@@ -43,6 +43,8 @@ class UrlScan:
             verify=False
         ).json()
 
+        print(response)
+
         return uuid.UUID(response["uuid"])
 
     def fetch_result(self, scan_uuid: uuid.UUID) -> Dict[str, str]:
