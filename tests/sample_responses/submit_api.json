@@ -1,0 +1,11 @@
+{
+  "message": "Submission successful",
+  "uuid": "e2963e73-74e2-46d0-b9d4-db7db9d6b79d",
+  "result": "https://urlscan.io/result/e2963e73-74e2-46d0-b9d4-db7db9d6b79d/",
+  "api": "https://urlscan.io/api/v1/result/e2963e73-74e2-46d0-b9d4-db7db9d6b79d/",
+  "visibility": "public",
+  "options": {
+      "useragent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36"
+  },
+  "url": "https://www.google.com"
+}
