@@ -24,8 +24,8 @@ def test_submit_scan_request(test_urlscan_params: Dict[str, Any],
     assert output_uuid == uuid.UUID(submit_response["uuid"])
 
 
-@mock.patch("urlscanio.urlscan.UrlScan.download_dom")
-@mock.patch("urlscanio.urlscan.UrlScan.download_screenshot")
+@mock.patch("src.urlscanio.urlscan.UrlScan.download_dom")
+@mock.patch("src.urlscanio.urlscan.UrlScan.download_screenshot")
 @responses.activate
 def test_fetch_result(mock_dl_img,
                       mock_dl_dom,
