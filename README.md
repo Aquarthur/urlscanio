@@ -16,6 +16,11 @@ pip install urlscanio
 ## How to use
 In this section, the different functions of the CLI are outlined. You may also use `urlscanio -h|--help` for information within your terminal.
 
+### API key and download directory
+This tool requires an environment variable named `URLSCAN_API_KEY` to be set to your API key. Optionally, you may also set an environment variable called `URLSCAN_DATA_DIR` to specify where the screenshots and DOM should be downloaded. If not set, they will be downloaded in the directory you run the script from.
+
+It is recommended to use the `.bashrc` or `.zshrc` file for this. If using PowerShell, add the environment variables to your user profile.
+
 ### Investigate URL
 Provided a URL (containing the protocol and domain at minimum), will request a scan and download the corresponding screenshot and DOM, as well as the report URL.
 
