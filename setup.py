@@ -23,6 +23,7 @@ setuptools.setup(
     description=("Command line utility to get information about a website "
                  "using URLScan.io's APIs."),
     long_description=open("README.md", "r", encoding="utf-8").read(),
+    long_descirption_content_type="text/markdown",
     url="https://gitlab.com/aquarthur/urlscan-io",
     author="Arthur Verkaik",
     author_email="art.v412@gmail.com",
