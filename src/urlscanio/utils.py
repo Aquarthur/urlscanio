@@ -29,12 +29,15 @@ def create_arg_parser() -> argparse.ArgumentParser:
     )
     group.add_argument(
         "-s", "--submit",
-        help="",
+        help="Submit a scan request for the specified URL. Returns the corresponding UUID.",
         type=str
     )
     group.add_argument(
         "-r", "--retrieve",
-        help="",
+        help=(
+            "Retrieves the scan report for the provided UUID. Returns the report URL and the "
+            "download locations for the DOM and screenshot."
+        ),
         type=str
     )
 
