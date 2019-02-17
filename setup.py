@@ -45,7 +45,7 @@ setuptools.setup(
     install_requires=INSTALL_REQUIRES,
     entry_points={
         "console_scripts": [
-            "urlscanio = src.urlscanio.__main__:main"
+            "urlscan = src.urlscanio.__main__:main"
         ]
     }
 )
