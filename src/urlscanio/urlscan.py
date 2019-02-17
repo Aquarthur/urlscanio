@@ -5,7 +5,7 @@ import uuid
 from io import BytesIO
 from typing import Any, Dict, Optional, Union
 
-import PIL
+from PIL import Image
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning  # pylint: disable=E0401
 
@@ -42,8 +42,6 @@ class UrlScan:
             verify=False
         ).json()
 
-        print(response)
-
         return uuid.UUID(response["uuid"])
 
     def fetch_result(self, scan_uuid: uuid.UUID) -> Dict[str, Union[str, pathlib.Path]]:
@@ -69,7 +67,7 @@ class UrlScan:
             "{data_dir}/screenshots/{name}".format(data_dir=self.data_dir, name=screenshot_name)
         )
 
-        PIL.Image.open(BytesIO(screenshot_res)).save(screenshot_location)
+        Image.open(BytesIO(screenshot_res)).save(screenshot_location)
 
         return screenshot_location
 
@@ -97,4 +95,4 @@ class UrlScan:
             calls += 1
 
         return result if result is not None else \
-               {"error": "Your request time out. Please try again."}
+               {"error": "Your request timed out. Please try again."}

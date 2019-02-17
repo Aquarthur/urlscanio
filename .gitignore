@@ -24,3 +24,7 @@ venv/
 
 # Mac
 **/*.DS_Store
+
+# Artifacts
+doms/
+screenshots/

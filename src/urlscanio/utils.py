@@ -67,5 +67,5 @@ def validate_arguments(args: argparse.Namespace) -> None:
 
 
 def create_data_dir(data_dir: pathlib.Path) -> None:
-    pathlib.Path("{data_dir}/images".format(data_dir=data_dir)).mkdir(exist_ok=True)
+    pathlib.Path("{data_dir}/screenshots".format(data_dir=data_dir)).mkdir(exist_ok=True)
     pathlib.Path("{data_dir}/doms".format(data_dir=data_dir)).mkdir(exist_ok=True)
