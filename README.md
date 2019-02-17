@@ -27,8 +27,8 @@ Provided a URL (containing the protocol and domain at minimum), will request a s
 Examples:
 
 ```bash
-urlscanio -i https://www.amazon.co.uk
-urlscanio --investigate http://some-dodgy.website
+urlscan -i https://www.amazon.co.uk
+urlscan --investigate http://some-dodgy.website
 ```
 
 ### Submit scan request
@@ -37,16 +37,16 @@ Provided a URL (containing the protocol and domain at minimum), will request a s
 Examples:
 
 ```bash
-urlscanio -s https://www.amazon.co.uk
-urlscanio --submit http://some-dodgy.website
+urlscan -s https://www.amazon.co.uk
+urlscan --submit http://some-dodgy.website
 ```
 
 ### Retrieve scan information
 Provided the UUID linked to the scan in question, will query the API to download the screenshot and DOM from the report, as well as return the report URL.
 
 ```bash
-urlscanio -r c5be1459-0a64-4751-bf25-8dd6d3c5742d
-urlscanio --retrieve c5be1459-0a64-4751-bf25-8dd6d3c5742d
+urlscan -r c5be1459-0a64-4751-bf25-8dd6d3c5742d
+urlscan --retrieve c5be1459-0a64-4751-bf25-8dd6d3c5742d
 ```
 
 [urlscan-homepage]: https://urlscan.io
