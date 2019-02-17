@@ -24,7 +24,7 @@ setuptools.setup(
                  "using URLScan.io's APIs."),
     long_description=open("README.md", "r", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    url="https://gitlab.com/aquarthur/urlscan-io",
+    url="https://github.com/Aquarthur/urlscanio",
     author="Arthur Verkaik",
     author_email="art.v412@gmail.com",
     license="MIT",
