@@ -77,7 +77,7 @@ class UrlScan:
         dom_location: pathlib.Path = pathlib.Path(
             "{data_dir}/doms/{uuid}.txt".format(data_dir=self.data_dir, uuid=scan_uuid)
         )
-        with open(dom_location, "w") as dom_file:
+        with open(dom_location, "w", encoding="utf-8") as dom_file:
             print(dom.text, file=dom_file)
 
         return dom_location
