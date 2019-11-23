@@ -96,6 +96,6 @@ def test_download_dom(mock_print,
     dom_path: pathlib.Path = \
         url_scan.download_dom(test_urlscan_params["uuid"], test_urlscan_params["dom"]["link"])
 
-    mock_open.assert_called_once_with(test_urlscan_params["dom"]["path"], "w")
+    mock_open.assert_called_once_with(test_urlscan_params["dom"]["path"], "w", encoding="utf-8")
     mock_print.assert_called_once_with(dom_response, file=mock_open().__enter__())
     assert dom_path == test_urlscan_params["dom"]["path"]

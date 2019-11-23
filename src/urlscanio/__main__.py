@@ -1,6 +1,6 @@
 import argparse
 import os
-import pathlib
+from pathlib import Path
 import uuid
 from typing import Dict, Union
 
@@ -14,7 +14,7 @@ def main() -> None:
     utils.validate_arguments(args)
 
     api_key: str = os.environ["URLSCAN_API_KEY"]
-    data_dir: pathlib.Path = pathlib.Path(os.getenv("URLSCAN_DATA_DIR", "."))
+    data_dir: Path = Path(os.getenv("URLSCAN_DATA_DIR", "."))
     utils.create_data_dir(data_dir)
 
     url_scan = urlscan.UrlScan(
@@ -23,14 +23,14 @@ def main() -> None:
     )
 
     if args.investigate:
-        investigation_result: Dict[str, Union[str, pathlib.Path]] = \
+        investigation_result: Dict[str, Union[str, Path]] = \
             url_scan.investigate(args.investigate)
         print("\nScan report URL:\t\t{url}".format(url=investigation_result["report"]))
         print("Screenshot download location:\t{img}".format(img=investigation_result["screenshot"]))
         print("DOM download location:\t\t{dom}".format(dom=investigation_result["dom"]))
 
     elif args.retrieve:
-        retrieve_result: Dict[str, Union[str, pathlib.Path]] = url_scan.fetch_result(args.retrieve)
+        retrieve_result: Dict[str, Union[str, Path]] = url_scan.fetch_result(args.retrieve)
         print("\nScan report URL:\t\t{url}".format(url=retrieve_result["report"]))
         print("Screenshot download location:\t{img}".format(img=retrieve_result["screenshot"]))
         print("DOM download location:\t\t{dom}".format(dom=retrieve_result["dom"]))
