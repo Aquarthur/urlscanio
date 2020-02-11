@@ -9,7 +9,6 @@ import aiohttp
 
 
 class UrlScanAsync:
-
     URLSCAN_API_URL: str = "https://urlscan.io/api/v1"
     DEFAULT_PAUSE_TIME: int = 3
     DEFAULT_MAX_CALLS: int = 10
@@ -31,11 +30,11 @@ class UrlScanAsync:
                       headers: Dict[str, str] = None,
                       payload: Dict[str, str] = None) -> (int, bytes):
         async with self.session.request(
-                method=method,
-                url=url,
-                headers=headers,
-                data=json.dumps(payload),
-                ssl=False) as response:
+            method=method,
+            url=url,
+            headers=headers,
+            data=json.dumps(payload),
+            ssl=False) as response:
             return response.status, await response.read()
 
     async def save_file(self, target_path: str, content: Any) -> None:
@@ -87,4 +86,4 @@ class UrlScanAsync:
                 await asyncio.sleep(self.DEFAULT_PAUSE_TIME)
 
         return result if result is not None else \
-               {"error": "Your request timed out. Please try again."}
+            {"error": "Your request timed out. Please try again."}
