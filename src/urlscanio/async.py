@@ -28,13 +28,14 @@ class UrlScanAsync:
     async def __aexit__(self, *excinfo):
         await self.session.close()
 
-    async def get(self, url: str) -> Any:
-        async with self.session.get(url, ssl=False) as response:
-            return response.status, await response.read()
-
-    async def post(self, url: str, headers: Dict[str, str], payload: None) -> Any:
-        async with self.session.post(
-                url,
+    async def do(self,
+                 method: str,
+                 url: str,
+                 headers: Dict[str, str] = None,
+                 payload: Dict[str, str] = None) -> Any:
+        async with self.session.request(
+                method=method,
+                url=url,
                 headers=headers,
                 data=json.dumps(payload),
                 ssl=False) as response:
@@ -50,14 +51,14 @@ class UrlScanAsync:
             "public": "on"
         }
 
-        _, response = await self.post(f"{self.URLSCAN_API_URL}/scan/", headers, payload)
+        _, response = await self.do("POST", f"{self.URLSCAN_API_URL}/scan/", headers, payload)
         body = json.loads(response)
         return uuid.UUID(body["uuid"])
 
     async def fetch_result(self, scan_uuid: uuid.UUID) -> Dict[str, Union[str, pathlib.Path]]:
         result_url: str = \
             "{api_url}/result/{uuid}".format(api_url=self.URLSCAN_API_URL, uuid=scan_uuid)
-        _, response = await self.get(result_url)
+        _, response = await self.do("GET", result_url)
         body: Dict[str, Any] = json.loads(response)
         return {
             "report": body["task"]["reportURL"],
@@ -69,7 +70,7 @@ class UrlScanAsync:
         screenshot_name: str = screenshot_url.split("/")[-1]
         screenshot_location: pathlib.Path = pathlib.Path(f"{self.data_dir}/screenshots/{screenshot_name}")
 
-        status, response = await self.get(screenshot_url)
+        status, response = await self.do("GET", screenshot_url)
         if status == 200:
             image_data = await aiofiles.open(screenshot_location, mode="wb")
             await image_data.write(response)
@@ -78,7 +79,7 @@ class UrlScanAsync:
 
     async def download_dom(self, scan_uuid: uuid.UUID, dom_url: str) -> str:
         dom_location: pathlib.Path = pathlib.Path(f"{self.data_dir}/doms/{scan_uuid}.txt")
-        status, response = await self.get(dom_url)
+        status, response = await self.do("GET", dom_url)
         if status == 200:
             dom_data = await aiofiles.open(dom_location, mode="wb")
             await dom_data.write(response)
