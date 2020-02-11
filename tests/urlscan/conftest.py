@@ -13,7 +13,7 @@ SAMPLE_RESPONSE_DIR: pathlib.Path = pathlib.Path("tests/sample_responses").absol
 @pytest.fixture
 def test_urlscan_params() -> Dict[str, Any]:
     test_uuid: uuid.UUID = uuid.UUID("e2963e73-74e2-46d0-b9d4-db7db9d6b79d")
-    test_data_dir: pathlib.Path = pathlib.Path("/some/data/dir")
+    test_data_dir: pathlib.Path = pathlib.Path(".")
 
     return {
         "api_key": "some-api-key",
