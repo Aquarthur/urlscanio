@@ -1,10 +1,10 @@
 import asyncio
 import json
 import os
-import pathlib
 import time
-import uuid
-from typing import Any, Dict, Optional, Union
+from pathlib import Path
+from typing import Any, Dict, Union
+from uuid import UUID
 
 import aiofiles
 import aiohttp
@@ -17,7 +17,7 @@ class UrlScanAsync:
     DEFAULT_PAUSE_TIME: int = 3
     DEFAULT_MAX_CALLS: int = 10
 
-    def __init__(self, api_key: str, data_dir: pathlib.Path = pathlib.Path.cwd()):
+    def __init__(self, api_key: str, data_dir: Path = Path.cwd()):
         self.api_key = api_key
         self.data_dir = data_dir
         self.session = aiohttp.ClientSession(trust_env=True)
@@ -28,11 +28,11 @@ class UrlScanAsync:
     async def __aexit__(self, *excinfo):
         await self.session.close()
 
-    async def do(self,
-                 method: str,
-                 url: str,
-                 headers: Dict[str, str] = None,
-                 payload: Dict[str, str] = None) -> Any:
+    async def execute(self,
+                      method: str,
+                      url: str,
+                      headers: Dict[str, str] = None,
+                      payload: Dict[str, str] = None) -> (int, bytes):
         async with self.session.request(
                 method=method,
                 url=url,
@@ -41,24 +41,15 @@ class UrlScanAsync:
                 ssl=False) as response:
             return response.status, await response.read()
 
-    async def submit_scan_request(self, url: str) -> uuid.UUID:
-        headers: Dict[str, str] = {
-            "Content-Type": "application/json",
-            "API-Key": self.api_key
-        }
-        payload: Dict[str, str] = {
-            "url": url,
-            "public": "on"
-        }
-
-        _, response = await self.do("POST", f"{self.URLSCAN_API_URL}/scan/", headers, payload)
+    async def submit_scan_request(self, url: str) -> UUID:
+        headers: Dict[str, str] = {"Content-Type": "application/json", "API-Key": self.api_key}
+        payload: Dict[str, str] = {"url": url, "public": "on"}
+        _, response = await self.execute("POST", f"{self.URLSCAN_API_URL}/scan/", headers, payload)
         body = json.loads(response)
-        return uuid.UUID(body["uuid"])
+        return UUID(body["uuid"])
 
-    async def fetch_result(self, scan_uuid: uuid.UUID) -> Dict[str, Union[str, pathlib.Path]]:
-        result_url: str = \
-            "{api_url}/result/{uuid}".format(api_url=self.URLSCAN_API_URL, uuid=scan_uuid)
-        _, response = await self.do("GET", result_url)
+    async def fetch_result(self, scan_uuid: UUID) -> Dict[str, Union[str, Path]]:
+        _, response = await self.execute("GET", f"{self.URLSCAN_API_URL}/result/{scan_uuid}")
         body: Dict[str, Any] = json.loads(response)
         return {
             "report": body["task"]["reportURL"],
@@ -68,31 +59,30 @@ class UrlScanAsync:
 
     async def download_screenshot(self, screenshot_url: str) -> str:
         screenshot_name: str = screenshot_url.split("/")[-1]
-        screenshot_location: pathlib.Path = pathlib.Path(f"{self.data_dir}/screenshots/{screenshot_name}")
-
-        status, response = await self.do("GET", screenshot_url)
+        screenshot_location: Path = Path(f"{self.data_dir}/screenshots/{screenshot_name}")
+        status, response = await self.execute("GET", screenshot_url)
         if status == 200:
             image_data = await aiofiles.open(screenshot_location, mode="wb")
             await image_data.write(response)
             await image_data.close()
             return str(screenshot_location)
 
-    async def download_dom(self, scan_uuid: uuid.UUID, dom_url: str) -> str:
-        dom_location: pathlib.Path = pathlib.Path(f"{self.data_dir}/doms/{scan_uuid}.txt")
-        status, response = await self.do("GET", dom_url)
+    async def download_dom(self, scan_uuid: UUID, dom_url: str) -> str:
+        dom_location: Path = Path(f"{self.data_dir}/doms/{scan_uuid}.txt")
+        status, response = await self.execute("GET", dom_url)
         if status == 200:
             dom_data = await aiofiles.open(dom_location, mode="wb")
             await dom_data.write(response)
             await dom_data.close()
             return str(dom_location)
 
-    async def investigate(self, url: str) -> Dict[str, Union[str, pathlib.Path]]:
-        scan_uuid: uuid.UUID = await self.submit_scan_request(url)        
-        result: Optional[Dict[str, Union[str, pathlib.Path]]] = None
+    async def investigate(self, url: str) -> Dict[str, str]:
+        scan_uuid: UUID = await self.submit_scan_request(url)
+        result: Dict[str, Union[str, Path]] = None
 
         calls = 0
         await asyncio.sleep(self.DEFAULT_PAUSE_TIME)
-        while not result:
+        while not result and calls < self.DEFAULT_MAX_CALLS:
             try:
                 result = await self.fetch_result(scan_uuid)
             except KeyError:
@@ -104,7 +94,7 @@ class UrlScanAsync:
 
 async def main():
     api_key: str = os.environ["URLSCAN_API_KEY"]
-    data_dir: pathlib.Path = pathlib.Path(os.getenv("URLSCAN_DATA_DIR", "."))
+    data_dir: Path = Path(os.getenv("URLSCAN_DATA_DIR", "."))
     utils.create_data_dir(data_dir)
 
     async with UrlScanAsync(api_key=api_key, data_dir=data_dir) as url_scan:
