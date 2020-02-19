@@ -9,9 +9,9 @@ TEST_WEBSITE = "https://www.google.com"
 TEST_UUID = uuid.uuid4()
 
 TEST_FLAGS = {
-    "investigate": "-i {website}".format(website=TEST_WEBSITE),
-    "submit": "-s {website}".format(website=TEST_WEBSITE),
-    "retrieve": "-r {uuid}".format(uuid=TEST_UUID)
+    "investigate": f"-i {TEST_WEBSITE}",
+    "submit": f"-s {TEST_WEBSITE}",
+    "retrieve": f"-r {TEST_UUID}"
 }
 
 ALL_FLAG_COMBOS = \

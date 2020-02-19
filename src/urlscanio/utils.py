@@ -12,7 +12,7 @@ def create_arg_parser():
             "URLSCAN_API_KEY to be set to your API key.\nOptionally, you may also set "
             "an environment variable called URLSCAN_DATA_DIR to specify where the "
             "screenshots and DOM should be downloaded. If not set, they will be downloaded "
-            "in your current directory.\n"
+            "in your current directory."
         ),
     )
 
@@ -65,5 +65,5 @@ def validate_arguments(args: argparse.Namespace):
 
 
 def create_data_dir(data_dir: pathlib.Path):
-    pathlib.Path("{data_dir}/screenshots".format(data_dir=data_dir)).mkdir(exist_ok=True)
-    pathlib.Path("{data_dir}/doms".format(data_dir=data_dir)).mkdir(exist_ok=True)
+    pathlib.Path(f"{data_dir}/screenshots").mkdir(exist_ok=True)
+    pathlib.Path(f"{data_dir}/doms").mkdir(exist_ok=True)

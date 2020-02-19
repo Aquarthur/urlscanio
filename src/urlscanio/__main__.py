@@ -13,7 +13,7 @@ def main():
 
     api_key = os.environ["URLSCAN_API_KEY"]
     data_dir = Path(os.getenv("URLSCAN_DATA_DIR", "."))
-    
+
     utils.create_data_dir(data_dir)
 
     # See https://github.com/iojw/socialscan/issues/13

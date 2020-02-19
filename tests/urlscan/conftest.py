@@ -18,46 +18,36 @@ def test_urlscan_params():
         "api_key": "some-api-key",
         "uuid": test_uuid,
         "submit_url": "https://urlscan.io/api/v1/scan/",
-        "result_url": "https://urlscan.io/api/v1/result/{test_uuid}".format(test_uuid=test_uuid),
+        "result_url": f"https://urlscan.io/api/v1/result/{test_uuid}",
         "data_dir": test_data_dir,
         "screenshot": {
-            "link": "https://urlscan.io/screenshots/{test_uuid}.png".format(test_uuid=test_uuid),
-            "path": test_data_dir.joinpath(
-                "screenshots/{test_uuid}.png".format(test_uuid=test_uuid)
-            )
+            "link": f"https://urlscan.io/screenshots/{test_uuid}.png",
+            "path": test_data_dir.joinpath(f"screenshots/{test_uuid}.png")
         },
         "dom": {
-            "link": "https://urlscan.io/dom/{test_uuid}/".format(test_uuid=test_uuid),
-            "path": test_data_dir.joinpath(
-                "doms/{test_uuid}.txt".format(test_uuid=test_uuid)
-            )
+            "link": f"https://urlscan.io/dom/{test_uuid}/",
+            "path": test_data_dir.joinpath(f"doms/{test_uuid}.txt")
         }
     }
 
 
 @pytest.fixture
 def submit_response():
-    submit_resp_path = pathlib.Path(
-        "{dir}/submit_api.json".format(dir=SAMPLE_RESPONSE_DIR)
-    )
+    submit_resp_path = pathlib.Path(f"{SAMPLE_RESPONSE_DIR}/submit_api.json")
     with open(submit_resp_path, "r", encoding="utf-8") as res:
         return json.loads(res.read())
 
 
 @pytest.fixture
 def success_result_response():
-    success_result_resp_path = pathlib.Path(
-        "{dir}/result_api.json".format(dir=SAMPLE_RESPONSE_DIR)
-    )
+    success_result_resp_path = pathlib.Path(f"{SAMPLE_RESPONSE_DIR}/result_api.json")
     with open(success_result_resp_path, "r", encoding="utf-8") as res:
         return json.loads(res.read())
 
 
 @pytest.fixture
 def not_found_result_response():
-    not_found_result_resp_path = pathlib.Path(
-        "{dir}/404_result_api.json".format(dir=SAMPLE_RESPONSE_DIR)
-    )
+    not_found_result_resp_path = pathlib.Path(f"{SAMPLE_RESPONSE_DIR}/404_result_api.json")
     with open(not_found_result_resp_path, "r", encoding="utf-8") as res:
         return json.loads(res.read())
 
@@ -65,7 +55,7 @@ def not_found_result_response():
 @pytest.fixture
 def screenshot_response():
     img_bytes_io = BytesIO()
-    img = Image.open(pathlib.Path("{dir}/screenshot.png".format(dir=SAMPLE_RESPONSE_DIR)))
+    img = Image.open(pathlib.Path(f"{SAMPLE_RESPONSE_DIR}/screenshot.png"))
     img.save(img_bytes_io, "PNG")
     img_bytes_io.seek(0)
     return img_bytes_io.read()
@@ -73,8 +63,6 @@ def screenshot_response():
 
 @pytest.fixture
 def dom_response():
-    dom_response_path = pathlib.Path(
-        "{dir}/dom.txt".format(dir=SAMPLE_RESPONSE_DIR)
-    )
+    dom_response_path = pathlib.Path(f"{SAMPLE_RESPONSE_DIR}/dom.txt")
     with open(dom_response_path, "r", encoding="utf-8") as res:
         return res.read()
