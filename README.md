@@ -58,4 +58,4 @@ urlscan --retrieve c5be1459-0a64-4751-bf25-8dd6d3c5742d
 ```
 
 [urlscan-homepage]: https://urlscan.io
-[urlscan-api]: https://urlscan.io/about-api/
+[urlscan-api]: https://urlscan.io/about-api
