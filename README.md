@@ -44,8 +44,8 @@ Provided a URL (containing the protocol and domain at minimum), will request a s
 Examples:
 
 ```bash
-urlscan -s https://www.some-dodgy.website
-urlscan --submit http://some-dodgy.website
+urlscanio -s https://www.some-dodgy.website
+urlscanio --submit http://some-dodgy.website
 ```
 
 ### Retrieve scan information
@@ -53,8 +53,8 @@ urlscan --submit http://some-dodgy.website
 Provided the UUID linked to the scan in question, will query the API to download the screenshot and DOM from the report, as well as return the report URL.
 
 ```bash
-urlscan -r c5be1459-0a64-4751-bf25-8dd6d3c5742d
-urlscan --retrieve c5be1459-0a64-4751-bf25-8dd6d3c5742d
+urlscanio -r c5be1459-0a64-4751-bf25-8dd6d3c5742d
+urlscanio --retrieve c5be1459-0a64-4751-bf25-8dd6d3c5742d
 ```
 
 [urlscan-homepage]: https://urlscan.io
