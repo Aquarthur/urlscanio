@@ -22,7 +22,7 @@ TESTS_REQUIRES = [
 
 setuptools.setup(
     name="urlscanio",
-    version="0.1.0",
+    version="0.1.1",
     description=("Command line utility to get information about a website "
                  "using URLScan.io's APIs."),
     long_description=open("README.md", "r", encoding="utf-8").read(),
@@ -40,7 +40,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: Implementation :: CPython"
     ],
-    python_requires=">=3.5.3",
+    python_requires=">=3.8",
     keywords="urlscan cli",
     packages=setuptools.find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     include_package_data=True,
