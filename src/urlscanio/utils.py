@@ -2,10 +2,8 @@ import argparse
 import pathlib
 import re
 import urllib.parse
-from typing import List, Pattern
 
-
-def create_arg_parser() -> argparse.ArgumentParser:
+def create_arg_parser():
     parser = argparse.ArgumentParser(
         prog="urlscan",
         description=(
@@ -44,15 +42,15 @@ def create_arg_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def is_url_valid(url: str) -> bool:
-    minimum_url_attributes: List[str] = ["scheme", "netloc"]
+def is_url_valid(url):
+    minimum_url_attributes = ["scheme", "netloc"]
     token = urllib.parse.urlparse(url)
     return all([getattr(token, attribute) for attribute in minimum_url_attributes]) and \
            len([s for s in token.netloc.split(".") if s != ""]) > 1
 
 
-def validate_arguments(args: argparse.Namespace) -> None:
-    uuid_validator: Pattern = re.compile(
+def validate_arguments(args: argparse.Namespace):
+    uuid_validator = re.compile(
         "^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
     )
 
@@ -66,6 +64,6 @@ def validate_arguments(args: argparse.Namespace) -> None:
         raise ValueError("The UUID provided is incorrectly formatted")
 
 
-def create_data_dir(data_dir: pathlib.Path) -> None:
-    pathlib.Path("{data_dir}/screenshots".format(data_dir=data_dir)).mkdir(exist_ok=True)
-    pathlib.Path("{data_dir}/doms".format(data_dir=data_dir)).mkdir(exist_ok=True)
+def create_data_dir(data_dir: pathlib.Path):
+    pathlib.Path(f"{data_dir}/screenshots").mkdir(exist_ok=True)
+    pathlib.Path(f"{data_dir}/doms").mkdir(exist_ok=True)

@@ -2,24 +2,27 @@ import setuptools
 
 SETUP_REQUIRES = [
     "pytest-pylint",
-    "pytest-runner"
+    "pytest-runner",
+    "wheel"
 ]
 
 INSTALL_REQUIRES = [
-    "pillow",
-    "requests"
+    "aiohttp",
+    "aiofiles"
 ]
 
 TESTS_REQUIRES = [
-    "mock",
+    "Pillow",
     "pylint",
     "pytest",
-    "responses"
+    "pytest-asyncio",
+    "pytest-mock",
+    "aioresponses"
 ]
 
 setuptools.setup(
     name="urlscanio",
-    version="0.0.5",
+    version="0.1.0",
     description=("Command line utility to get information about a website "
                  "using URLScan.io's APIs."),
     long_description=open("README.md", "r", encoding="utf-8").read(),
@@ -29,13 +32,15 @@ setuptools.setup(
     author_email="art.v412@gmail.com",
     license="MIT",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: Implementation :: CPython"
     ],
+    python_requires=">=3.5.3",
     keywords="urlscan cli",
     packages=setuptools.find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     include_package_data=True,
@@ -45,7 +50,7 @@ setuptools.setup(
     install_requires=INSTALL_REQUIRES,
     entry_points={
         "console_scripts": [
-            "urlscan = src.urlscanio.__main__:main"
+            "urlscanio = src.urlscanio.__main__:main"
         ]
     }
 )
