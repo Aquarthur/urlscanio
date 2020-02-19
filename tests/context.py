@@ -7,6 +7,5 @@ PROJECT_DIR: pathlib.Path = pathlib.Path.cwd().parent.joinpath("src").absolute()
 
 sys.path.insert(0, str(PROJECT_DIR))
 
-from src.urlscanio import urlscan_async     # type: ignore
 from src.urlscanio import urlscan   # type: ignore
 from src.urlscanio import utils     # type: ignore

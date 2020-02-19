@@ -6,7 +6,7 @@ from pathlib import Path
 import uuid
 from typing import Dict, Union
 
-from . import urlscan_async
+from . import urlscan
 from . import utils
 
 
@@ -25,7 +25,7 @@ def main():
     asyncio.run(execute(args, api_key, data_dir))
 
 async def execute(args, api_key, data_dir) -> None:
-    async with urlscan_async.UrlScanAsync(api_key=api_key, data_dir=data_dir) as url_scan:
+    async with urlscan.UrlScan(api_key=api_key, data_dir=data_dir) as url_scan:
         if args.investigate:
             investigation_result: Dict[str, Union[str, Path]] = \
                 await url_scan.investigate(args.investigate)
