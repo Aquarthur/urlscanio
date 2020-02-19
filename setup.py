@@ -6,20 +6,22 @@ SETUP_REQUIRES = [
 ]
 
 INSTALL_REQUIRES = [
-    "pillow",
-    "requests"
+    "aiohttp",
+    "aiofiles"
 ]
 
 TESTS_REQUIRES = [
-    "mock",
+    "Pillow",
     "pylint",
     "pytest",
-    "responses"
+    "pytest-asyncio",
+    "pytest-mock",
+    "aioresponses"
 ]
 
 setuptools.setup(
     name="urlscanio",
-    version="0.0.5",
+    version="0.1.0",
     description=("Command line utility to get information about a website "
                  "using URLScan.io's APIs."),
     long_description=open("README.md", "r", encoding="utf-8").read(),
@@ -29,7 +31,7 @@ setuptools.setup(
     author_email="art.v412@gmail.com",
     license="MIT",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 3 - Beta",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",

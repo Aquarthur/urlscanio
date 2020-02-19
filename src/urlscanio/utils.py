@@ -14,7 +14,7 @@ def create_arg_parser() -> argparse.ArgumentParser:
             "URLSCAN_API_KEY to be set to your API key.\nOptionally, you may also set "
             "an environment variable called URLSCAN_DATA_DIR to specify where the "
             "screenshots and DOM should be downloaded. If not set, they will be downloaded "
-            "in your current directory."
+            "in your current directory.\n"
         ),
     )
 
