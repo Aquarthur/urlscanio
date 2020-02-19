@@ -39,6 +39,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: Implementation :: CPython"
     ],
+    python_requires=">=3.5.3",
     keywords="urlscan cli",
     packages=setuptools.find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     include_package_data=True,
@@ -48,7 +49,7 @@ setuptools.setup(
     install_requires=INSTALL_REQUIRES,
     entry_points={
         "console_scripts": [
-            "urlscan = src.urlscanio.__main__:main"
+            "urlscanio = src.urlscanio.__main__:main"
         ]
     }
 )
