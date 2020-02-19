@@ -32,10 +32,10 @@ async def test_fetch_result(mocker,
                             success_result_response: Dict[str, Any]) -> None:
     # Mock download_screenshot function
     mock_download_screenshot: MockFixture = mocker.patch("src.urlscanio.urlscan_async.UrlScanAsync.download_screenshot")
-    mock_download_screenshot.return_value = return_async(test_urlscan_params["screenshot"]["path"])
+    mock_download_screenshot.return_value = await return_async(test_urlscan_params["screenshot"]["path"])
     # Mock download_dom function
     mock_download_dom: MockFixture = mocker.patch("src.urlscanio.urlscan_async.UrlScanAsync.download_dom")
-    mock_download_dom.return_value = return_async(test_urlscan_params["dom"]["path"])
+    mock_download_dom.return_value = await return_async(test_urlscan_params["dom"]["path"])
 
     with aioresponses() as mocked:
         mocked.get(test_urlscan_params["result_url"],
@@ -62,7 +62,7 @@ async def test_download_screenshot(mocker,
                                    test_urlscan_params: Dict[str, Any],
                                    screenshot_response: Any) -> None:
     mock_save_file = mocker.patch("src.urlscanio.urlscan_async.UrlScanAsync.save_file")
-    mock_save_file.return_value = return_async(None)
+    mock_save_file.return_value = await return_async(None)
 
     with aioresponses() as mocked:
         mocked.get(test_urlscan_params["screenshot"]["link"],
@@ -81,7 +81,7 @@ async def test_download_dom(mocker,
                             test_urlscan_params: Dict[str, Any],
                             dom_response: Any) -> None:
     mock_save_file = mocker.patch("src.urlscanio.urlscan_async.UrlScanAsync.save_file")
-    mock_save_file.return_value = return_async(None)
+    mock_save_file.return_value = await return_async(None)
 
     with aioresponses() as mocked:
         mocked.get(test_urlscan_params["dom"]["link"],
