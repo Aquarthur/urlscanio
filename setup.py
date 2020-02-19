@@ -2,7 +2,8 @@ import setuptools
 
 SETUP_REQUIRES = [
     "pytest-pylint",
-    "pytest-runner"
+    "pytest-runner",
+    "wheel"
 ]
 
 INSTALL_REQUIRES = [
@@ -31,7 +32,7 @@ setuptools.setup(
     author_email="art.v412@gmail.com",
     license="MIT",
     classifiers=[
-        "Development Status :: 3 - Beta",
+        "Development Status :: 4 - Beta",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
