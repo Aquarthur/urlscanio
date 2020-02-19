@@ -2,18 +2,17 @@ import json
 import pathlib
 import uuid
 from io import BytesIO
-from typing import Any, Dict
 
 import pytest
 from PIL import Image
 
-SAMPLE_RESPONSE_DIR: pathlib.Path = pathlib.Path("tests/sample_responses").absolute()
+SAMPLE_RESPONSE_DIR = pathlib.Path("tests/sample_responses").absolute()
 
 
 @pytest.fixture
-def test_urlscan_params() -> Dict[str, Any]:
-    test_uuid: uuid.UUID = uuid.UUID("e2963e73-74e2-46d0-b9d4-db7db9d6b79d")
-    test_data_dir: pathlib.Path = pathlib.Path(".")
+def test_urlscan_params():
+    test_uuid = uuid.UUID("e2963e73-74e2-46d0-b9d4-db7db9d6b79d")
+    test_data_dir = pathlib.Path(".")
 
     return {
         "api_key": "some-api-key",
@@ -37,8 +36,8 @@ def test_urlscan_params() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def submit_response() -> Dict[str, Any]:
-    submit_resp_path: pathlib.Path = pathlib.Path(
+def submit_response():
+    submit_resp_path = pathlib.Path(
         "{dir}/submit_api.json".format(dir=SAMPLE_RESPONSE_DIR)
     )
     with open(submit_resp_path, "r", encoding="utf-8") as res:
@@ -46,8 +45,8 @@ def submit_response() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def success_result_response() -> Dict[str, Any]:
-    success_result_resp_path: pathlib.Path = pathlib.Path(
+def success_result_response():
+    success_result_resp_path = pathlib.Path(
         "{dir}/result_api.json".format(dir=SAMPLE_RESPONSE_DIR)
     )
     with open(success_result_resp_path, "r", encoding="utf-8") as res:
@@ -55,8 +54,8 @@ def success_result_response() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def not_found_result_response() -> Dict[str, Any]:
-    not_found_result_resp_path: pathlib.Path = pathlib.Path(
+def not_found_result_response():
+    not_found_result_resp_path = pathlib.Path(
         "{dir}/404_result_api.json".format(dir=SAMPLE_RESPONSE_DIR)
     )
     with open(not_found_result_resp_path, "r", encoding="utf-8") as res:
@@ -64,17 +63,17 @@ def not_found_result_response() -> Dict[str, Any]:
 
 
 @pytest.fixture
-def screenshot_response() -> Any:
-    img_bytes_io: BytesIO = BytesIO()
-    img: Any = Image.open(pathlib.Path("{dir}/screenshot.png".format(dir=SAMPLE_RESPONSE_DIR)))
+def screenshot_response():
+    img_bytes_io = BytesIO()
+    img = Image.open(pathlib.Path("{dir}/screenshot.png".format(dir=SAMPLE_RESPONSE_DIR)))
     img.save(img_bytes_io, "PNG")
     img_bytes_io.seek(0)
     return img_bytes_io.read()
 
 
 @pytest.fixture
-def dom_response() -> str:
-    dom_response_path: pathlib.Path = pathlib.Path(
+def dom_response():
+    dom_response_path = pathlib.Path(
         "{dir}/dom.txt".format(dir=SAMPLE_RESPONSE_DIR)
     )
     with open(dom_response_path, "r", encoding="utf-8") as res:

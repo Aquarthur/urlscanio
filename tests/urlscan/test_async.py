@@ -1,39 +1,34 @@
 import json
-from typing import Any, Dict
 from uuid import UUID
 
 import pytest
 from aioresponses import aioresponses
-from pytest_mock import MockFixture
 
 from ..context import urlscan
 
 
 # Utility function to allow for mocking async function returns
-async def return_async(val: Any) -> Any:
+async def return_async(val):
     return val
 
 
 @pytest.mark.asyncio
-async def test_submit_scan_request(test_urlscan_params: Dict[str, Any],
-                                   submit_response: Dict[str, Any]) -> None:
+async def test_submit_scan_request(test_urlscan_params, submit_response):
     with aioresponses() as mocked:
         mocked.post(test_urlscan_params["submit_url"], status=200, body=json.dumps(submit_response))
         async with urlscan.UrlScan(api_key=test_urlscan_params["api_key"],
                                    data_dir=test_urlscan_params["data_dir"]) as url_scan:
-            actual: UUID = await url_scan.submit_scan_request("https://www.test.com")
+            actual = await url_scan.submit_scan_request("https://www.test.com")
             assert UUID(submit_response["uuid"]) == actual
 
 
 @pytest.mark.asyncio
-async def test_fetch_result(mocker,
-                            test_urlscan_params: Dict[str, Any],
-                            success_result_response: Dict[str, Any]) -> None:
+async def test_fetch_result(mocker, test_urlscan_params, success_result_response):
     # Mock download_screenshot function
-    mock_download_screenshot: MockFixture = mocker.patch("src.urlscanio.urlscan.UrlScan.download_screenshot")
+    mock_download_screenshot = mocker.patch("src.urlscanio.urlscan.UrlScan.download_screenshot")
     mock_download_screenshot.return_value = await return_async(test_urlscan_params["screenshot"]["path"])
     # Mock download_dom function
-    mock_download_dom: MockFixture = mocker.patch("src.urlscanio.urlscan.UrlScan.download_dom")
+    mock_download_dom = mocker.patch("src.urlscanio.urlscan.UrlScan.download_dom")
     mock_download_dom.return_value = await return_async(test_urlscan_params["dom"]["path"])
 
     with aioresponses() as mocked:
@@ -43,7 +38,7 @@ async def test_fetch_result(mocker,
 
         async with urlscan.UrlScan(api_key=test_urlscan_params["api_key"],
                                    data_dir=test_urlscan_params["data_dir"]) as url_scan:
-            actual: Dict[str, str] = await url_scan.fetch_result(test_urlscan_params["uuid"])
+            actual = await url_scan.fetch_result(test_urlscan_params["uuid"])
             mock_download_screenshot.assert_called_once_with(test_urlscan_params["screenshot"]["link"])
             mock_download_dom.assert_called_once_with(
                 test_urlscan_params["uuid"],
@@ -56,9 +51,7 @@ async def test_fetch_result(mocker,
 
 
 @pytest.mark.asyncio
-async def test_download_screenshot(mocker,
-                                   test_urlscan_params: Dict[str, Any],
-                                   screenshot_response: Any) -> None:
+async def test_download_screenshot(mocker, test_urlscan_params, screenshot_response):
     mock_save_file = mocker.patch("src.urlscanio.urlscan.UrlScan.save_file")
     mock_save_file.return_value = await return_async(None)
 
@@ -69,15 +62,13 @@ async def test_download_screenshot(mocker,
 
         async with urlscan.UrlScan(api_key=test_urlscan_params["api_key"],
                                    data_dir=test_urlscan_params["data_dir"]) as url_scan:
-            actual: str = await url_scan.download_screenshot(test_urlscan_params["screenshot"]["link"])
+            actual = await url_scan.download_screenshot(test_urlscan_params["screenshot"]["link"])
             assert str(test_urlscan_params["screenshot"]["path"]) == actual
             mock_save_file.assert_called_once_with(test_urlscan_params["screenshot"]["path"], screenshot_response)
 
 
 @pytest.mark.asyncio
-async def test_download_dom(mocker,
-                            test_urlscan_params: Dict[str, Any],
-                            dom_response: Any) -> None:
+async def test_download_dom(mocker, test_urlscan_params, dom_response):
     mock_save_file = mocker.patch("src.urlscanio.urlscan.UrlScan.save_file")
     mock_save_file.return_value = await return_async(None)
 
@@ -88,6 +79,6 @@ async def test_download_dom(mocker,
 
         async with urlscan.UrlScan(api_key=test_urlscan_params["api_key"],
                                    data_dir=test_urlscan_params["data_dir"]) as url_scan:
-            actual: str = await url_scan.download_dom(test_urlscan_params["uuid"], test_urlscan_params["dom"]["link"])
+            actual = await url_scan.download_dom(test_urlscan_params["uuid"], test_urlscan_params["dom"]["link"])
             assert str(test_urlscan_params["dom"]["path"]) == actual
             mock_save_file.assert_called_once()
