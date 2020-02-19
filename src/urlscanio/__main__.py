@@ -19,6 +19,7 @@ def main():
     data_dir: Path = Path(os.getenv("URLSCAN_DATA_DIR", "."))
     utils.create_data_dir(data_dir)
 
+    # See https://github.com/iojw/socialscan/issues/13
     if platform.system() == "Windows":
         asyncio.set_event_loop_policy(policy=asyncio.WindowsSelectorEventLoopPolicy())
 
