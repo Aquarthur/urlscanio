@@ -46,8 +46,8 @@ async def test_fetch_result(mocker, test_urlscan_params, success_result_response
             )
 
             assert f"https://urlscan.io/result/{test_urlscan_params['uuid']}/" == actual["report"]
-            assert test_urlscan_params["screenshot"]["path"] == await actual["screenshot"]
-            assert test_urlscan_params["dom"]["path"] == await actual["dom"]
+            assert test_urlscan_params["screenshot"]["path"] == actual["screenshot"]
+            assert test_urlscan_params["dom"]["path"] == actual["dom"]
 
 
 @pytest.mark.asyncio
