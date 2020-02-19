@@ -6,7 +6,7 @@
 
 ## Requirements
 
-`urlscanio` makes heavy usage of `aiohttp`, which requires Python >= 3.5.3. You will also need a [URLScan.io][urlscan-homepage] account and/or API key.
+`urlscanio` requires Python >= 3.8. You will also need a [URLScan.io][urlscan-homepage] account and/or API key.
 
 ## Installation
 
