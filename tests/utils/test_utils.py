@@ -31,7 +31,6 @@ ALL_SPLIT_FLAG_COMBOS.append(["-v"])
 @pytest.mark.parametrize("mock_flags", ALL_SPLIT_FLAG_COMBOS)
 def test_create_arg_parser(mock_flags):
     parser = utils.create_arg_parser()
-    print(mock_flags)
     if " ".join(mock_flags) in TEST_FLAGS.values():
         args = vars(parser.parse_args(mock_flags))
         for name, value in args.items():
