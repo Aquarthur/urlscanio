@@ -13,6 +13,7 @@ def main():
 
     api_key = os.environ["URLSCAN_API_KEY"]
     data_dir = Path(os.getenv("URLSCAN_DATA_DIR", "."))
+    log_level = utils.convert_int_to_logging_level(args.verbose)
 
     utils.create_data_dir(data_dir)
 
@@ -20,10 +21,10 @@ def main():
     if platform.system() == "Windows":
         asyncio.set_event_loop_policy(policy=asyncio.WindowsSelectorEventLoopPolicy())
 
-    asyncio.run(execute(args, api_key, data_dir))
+    asyncio.run(execute(args, api_key, data_dir, log_level))
 
-async def execute(args, api_key, data_dir):
-    async with urlscan.UrlScan(api_key=api_key, data_dir=data_dir) as url_scan:
+async def execute(args, api_key, data_dir, log_level):
+    async with urlscan.UrlScan(api_key=api_key, data_dir=data_dir, log_level=log_level) as url_scan:
         if args.investigate:
             investigation_result = await url_scan.investigate(args.investigate)
             print(f"\nScan report URL:\t\t{investigation_result['report']}")
