@@ -1,4 +1,5 @@
 import argparse
+import logging
 import pathlib
 import re
 import urllib.parse
@@ -14,6 +15,18 @@ def create_arg_parser():
             "screenshots and DOM should be downloaded. If not set, they will be downloaded "
             "in your current directory."
         ),
+    )
+    parser.add_argument(
+        "-v", "--verbose",
+        help=(
+            "Determines how verbose the output of the command will be. There are three "
+            "possible values: 0 (critical), 1 (info), and 2 (debug). The default value "
+            "is set to 0 when no verbose flag is present. If a flag is added with no "
+            "value specified, it is set to 1. Otherwise, it will simply use the value "
+            "specified."
+        ),
+        choices=[0, 1, 2], default=0, nargs="?", const=1,
+        type=int
     )
 
     group = parser.add_mutually_exclusive_group(required=True)
@@ -49,7 +62,7 @@ def is_url_valid(url):
            len([s for s in token.netloc.split(".") if s != ""]) > 1
 
 
-def validate_arguments(args: argparse.Namespace):
+def validate_arguments(args):
     uuid_validator = re.compile(
         "^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$"
     )
@@ -64,6 +77,14 @@ def validate_arguments(args: argparse.Namespace):
         raise ValueError("The UUID provided is incorrectly formatted")
 
 
-def create_data_dir(data_dir: pathlib.Path):
+def create_data_dir(data_dir):
     pathlib.Path(f"{data_dir}/screenshots").mkdir(exist_ok=True)
     pathlib.Path(f"{data_dir}/doms").mkdir(exist_ok=True)
+
+def convert_int_to_logging_level(log_level):
+    mapping = {
+        0: logging.CRITICAL,
+        1: logging.INFO,
+        2: logging.DEBUG
+    }
+    return mapping[log_level]
