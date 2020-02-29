@@ -22,8 +22,8 @@ def create_arg_parser():
             "Determines how verbose the output of the command will be. There are three "
             "possible values: 0 (critical), 1 (info), and 2 (debug). The default value "
             "is set to 0 when no verbose flag is present. If a flag is added with no "
-            "value attached, it is set to 1. Otherwise, it will simply use the value "
-            "attached to the flag."
+            "value specified, it is set to 1. Otherwise, it will simply use the value "
+            "specified."
         ),
         choices=[0, 1, 2], default=0, nargs="?", const=1,
         type=int
