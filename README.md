@@ -26,13 +26,17 @@ This tool requires an environment variable named `URLSCAN_API_KEY` containing yo
 
 It is recommended to use `.bashrc` or `.zshrc` for this. If using PowerShell, add `URLSCAN_API_KEY` and `URLSCAN_DATA_DIR` to your user profile.
 
+### Proxy settings
+
+`urlscanio` will use the proxy settings specified by the `HTTP_PROXY`, `HTTPS_PROXY`, and `NO_PROXY` environment variables if present.
+
 ### Investigate URL
 
 Provided a URL (containing the protocol and domain at minimum), will request a scan and download the corresponding screenshot and DOM, as well as the report URL.
 
 Examples:
 
-```bash
+```sh
 urlscanio -i https://www.some-dodgy.website
 urlscanio --investigate http://some-dodgy.website
 ```
@@ -43,7 +47,7 @@ Provided a URL (containing the protocol and domain at minimum), will request a s
 
 Examples:
 
-```bash
+```sh
 urlscanio -s https://www.some-dodgy.website
 urlscanio --submit http://some-dodgy.website
 ```
@@ -52,10 +56,23 @@ urlscanio --submit http://some-dodgy.website
 
 Provided the UUID linked to the scan in question, will query the API to download the screenshot and DOM from the report, as well as return the report URL.
 
-```bash
+```sh
 urlscanio -r c5be1459-0a64-4751-bf25-8dd6d3c5742d
 urlscanio --retrieve c5be1459-0a64-4751-bf25-8dd6d3c5742d
 ```
 
 [urlscan-homepage]: https://urlscan.io
 [urlscan-api]: https://urlscan.io/about-api
+
+### Verbose mode
+
+`urlscanio` includes a verbosity flag which takes 3 possible values: 0 (critical), 1 (info), and 2 (debug). This can be used with of the above commands to produce varying amounts of
+logs to give context to the commands run. If the flag is not passed, the verbosity is set to 0. If the flag is passed without a value, the verbosity level is set to one.
+
+```sh
+urlscanio -i https://www.some-dodgy.website         # verbosity is 0 (critical)
+urlscanio -v -i https://www.some-dodgy.website      # verbosity is 1 (info)
+urlscanio -v 0 -i https://www.some-dodgy.website    # verbosity is 0 (critical)
+urlscanio -v 1 -i https://www.some-dodgy.website    # verbosity is 1 (info)
+urlscanio -v 2 -i https://www.some-dodgy.website    # verbosity is 2 (debug)
+```
