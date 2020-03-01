@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import sys
 from pathlib import Path
 from uuid import UUID
 
@@ -18,16 +19,16 @@ class UrlScan:
         self.api_key = api_key
         self.data_dir = data_dir
         self.session = aiohttp.ClientSession(trust_env=True)
+        self.verbose = True
         self.logger = logging.getLogger("urlscanio")
         self.logger.setLevel(log_level)
-        self.verbose = True
 
     async def __aenter__(self):
         return self
 
     async def __aexit__(self, *excinfo):
         await self.session.close()
-    
+
     async def execute(self, method, url, headers=None, payload=None):
         async with self.session.request(
                 method=method,
@@ -83,17 +84,15 @@ class UrlScan:
         self.logger.debug("Default sleep time between attempts: %d, maximum number of attempts: %d",
                           self.DEFAULT_PAUSE_TIME, self.DEFAULT_MAX_ATTEMPTS)
         scan_uuid = await self.submit_scan_request(url)
-        result = None
 
         attempts = 0
         await asyncio.sleep(self.DEFAULT_PAUSE_TIME)
-        while not result and attempts < self.DEFAULT_MAX_ATTEMPTS:
+        while attempts < self.DEFAULT_MAX_ATTEMPTS:
             self.logger.debug("Loading scan output: attempt #%d", attempts)
             try:
-                result = await self.fetch_result(scan_uuid)
+                return await self.fetch_result(scan_uuid)
             except KeyError:
                 attempts += 1
                 await asyncio.sleep(self.DEFAULT_PAUSE_TIME)
-
-        return result if result is not None else \
-            {"error": "Your request timed out. Please try again."}
+        print(f"\nCould not fetch scan output after {attempts} attempts. Please try again.\n", file=sys.stderr)
+        sys.exit(1)
