@@ -44,10 +44,10 @@ class UrlScan:
         async with aiofiles.open(target_path, "wb") as data:
             await data.write(content)
 
-    async def submit_scan_request(self, url):
+    async def submit_scan_request(self, url, private=False):
         self.logger.info("Requesting scan for %s", url)
         headers = {"Content-Type": "application/json", "API-Key": self.api_key}
-        payload = {"url": url, "public": "on"}
+        payload = {"url": url} if private else {"url": url, "public": "on"} 
         _, response = await self.execute("POST", f"{self.URLSCAN_API_URL}/scan/", headers, payload)
         body = json.loads(response)
         return UUID(body["uuid"])
@@ -79,11 +79,11 @@ class UrlScan:
             await self.save_file(dom_location, response)
             return str(dom_location)
 
-    async def investigate(self, url):
+    async def investigate(self, url, private=False):
         self.logger.info("Starting investigation of %s", url)
         self.logger.debug("Default sleep time between attempts: %d, maximum number of attempts: %d",
                           self.DEFAULT_PAUSE_TIME, self.DEFAULT_MAX_ATTEMPTS)
-        scan_uuid = await self.submit_scan_request(url)
+        scan_uuid = await self.submit_scan_request(url, private)
 
         attempts = 0
         await asyncio.sleep(self.DEFAULT_PAUSE_TIME)
