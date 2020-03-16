@@ -26,7 +26,7 @@ def main():
 async def execute(args, api_key, data_dir, log_level):
     async with urlscan.UrlScan(api_key=api_key, data_dir=data_dir, log_level=log_level) as url_scan:
         if args.investigate:
-            investigation_result = await url_scan.investigate(args.investigate)
+            investigation_result = await url_scan.investigate(args.investigate, args.private)
             print(f"\nScan report URL:\t\t{investigation_result['report']}")
             print(f"Screenshot download location:\t{investigation_result['screenshot']}")
             print(f"DOM download location:\t\t{investigation_result['dom']}\n")
@@ -38,5 +38,5 @@ async def execute(args, api_key, data_dir, log_level):
             print(f"DOM download location:\t\t{retrieve_result['dom']}\n")
 
         elif args.submit:
-            scan_uuid = await url_scan.submit_scan_request(args.submit)
+            scan_uuid = await url_scan.submit_scan_request(args.submit, args.private)
             print(f"\nScan UUID:\t\t{scan_uuid}\n")

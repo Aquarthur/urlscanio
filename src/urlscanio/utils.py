@@ -29,6 +29,12 @@ def create_arg_parser():
         type=int
     )
 
+    parser.add_argument(
+        "-p", "--private",
+        help=("Submit the URL in private. Private searches are not shared with other users" ),
+        action="store_true",
+    )
+
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
         "-i", "--investigate",
