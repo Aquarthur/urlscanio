@@ -31,8 +31,8 @@ def create_arg_parser():
 
     parser.add_argument(
         "-p", "--private",
-        help=("Submit the URL in private. Private searches are not shared with other users" ),
-        action="store_true",
+        help=("Submit the URL in private. Private searches are not shared with other users."),
+        action="store_true"
     )
 
     group = parser.add_mutually_exclusive_group(required=True)

@@ -28,13 +28,16 @@ for combo in ALL_FLAG_COMBOS:
 # Append scenario in which only verbose flag is presented
 ALL_SPLIT_FLAG_COMBOS.append(["-v"])
 
+# Append scenario in which only private flag is passed
+ALL_SPLIT_FLAG_COMBOS.append(["-p"])
+
 @pytest.mark.parametrize("mock_flags", ALL_SPLIT_FLAG_COMBOS)
-def test_create_arg_parser(mock_flags):
+def test_create_arg_parser_mutually_exclusive_group(mock_flags):
     parser = utils.create_arg_parser()
     if " ".join(mock_flags) in TEST_FLAGS.values():
         args = vars(parser.parse_args(mock_flags))
         for name, value in args.items():
-            if name != "verbose" and args[name] is not None:
+            if (name not in ("verbose", "private")) and args[name] is not None:
                 assert TEST_FLAGS[name].split(" ")[1].strip() == \
                        value.strip()
     else:
@@ -67,7 +70,6 @@ MOCK_INVALID_URLS = (
     "https://.google",
     "https://....google...."
 )
-
 
 @pytest.mark.parametrize("mock_invalid_url", MOCK_INVALID_URLS)
 def test_is_url_valid_for_invalid_urls(mock_invalid_url):          # pylint: disable=C0103
