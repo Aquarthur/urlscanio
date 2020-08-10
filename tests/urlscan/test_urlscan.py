@@ -1,5 +1,4 @@
 import json
-from uuid import UUID
 
 import pytest
 from aioresponses import aioresponses
@@ -19,7 +18,7 @@ async def test_submit_scan_request(test_urlscan_params, submit_response):
         async with urlscan.UrlScan(api_key=test_urlscan_params["api_key"],
                                    data_dir=test_urlscan_params["data_dir"]) as url_scan:
             actual = await url_scan.submit_scan_request("https://www.test.com")
-            assert UUID(submit_response["uuid"]) == actual
+            assert submit_response["uuid"] == actual
 
 
 @pytest.mark.asyncio

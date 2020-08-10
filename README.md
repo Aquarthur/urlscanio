@@ -34,8 +34,6 @@ It is recommended to use `.bashrc` or `.zshrc` for this. If using PowerShell, ad
 
 Provided a URL (containing the protocol and domain at minimum), will request a scan and download the corresponding screenshot and DOM, as well as the report URL.
 
-Examples:
-
 ```sh
 urlscanio -i https://www.some-dodgy.website
 urlscanio --investigate http://some-dodgy.website
@@ -44,8 +42,6 @@ urlscanio --investigate http://some-dodgy.website
 ### Submit scan request
 
 Provided a URL (containing the protocol and domain at minimum), will request a scan and return the UUID generated. This can then be used to determine eg the screenshot location.
-
-Examples:
 
 ```sh
 urlscanio -s https://www.some-dodgy.website
@@ -61,8 +57,24 @@ urlscanio -r c5be1459-0a64-4751-bf25-8dd6d3c5742d
 urlscanio --retrieve c5be1459-0a64-4751-bf25-8dd6d3c5742d
 ```
 
-[urlscan-homepage]: https://urlscan.io
-[urlscan-api]: https://urlscan.io/about-api
+### Batch Investigations
+
+If you have >1 URL you'd like to investigate, use the `-b/--batch-investigate` flag. You will need a file containing a URL per line, eg:
+
+```txt
+https://www.example1.com
+https://www.example2.com
+https://www.example3.com
+```
+
+The filename containing the URLs can then be passed, triggering an "investigation" for each URL. It will trigger each investigation in 3 second intervals by default, as UrlScan.io requires a minimum of 2 seconds between scan requests.
+
+`urlscanio` will produce an output CSV containing the results. The output CSV will be named `[input_stem].csv`; for example, passing in `test.txt` will produce `test.csv`.
+
+```sh
+urlscanio -b test.txt
+urlscanio --batch-investigate test.txt
+```
 
 ### Verbose mode
 
@@ -76,3 +88,6 @@ urlscanio -v 0 -i https://www.some-dodgy.website    # verbosity is 0 (critical)
 urlscanio -v 1 -i https://www.some-dodgy.website    # verbosity is 1 (info)
 urlscanio -v 2 -i https://www.some-dodgy.website    # verbosity is 2 (debug)
 ```
+
+[urlscan-homepage]: https://urlscan.io
+[urlscan-api]: https://urlscan.io/about-api
