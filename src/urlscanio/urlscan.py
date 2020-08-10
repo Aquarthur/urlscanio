@@ -67,6 +67,7 @@ class UrlScan:
         _, response = await self.execute("GET", f"{self.URLSCAN_API_URL}/result/{scan_uuid}")
         body = json.loads(response)
         return {
+            "scan_uuid": scan_uuid,
             "report": body["task"]["reportURL"],
             "screenshot": await self.download_screenshot(body["task"]["screenshotURL"]),
             "dom": await self.download_dom(scan_uuid, body["task"]["domURL"])
@@ -112,8 +113,13 @@ class UrlScan:
                 attempts += 1
                 await asyncio.sleep(self.DEFAULT_PAUSE_TIME)
 
-        self.logger.critical("Could not fetch scan output after %d attempts. Please try again.", attempts)
-        return {}
+        self.logger.critical(
+            "Couldn't fetch report after %d tries. Please wait a few seconds and visit https://urlscan.io/result/%s/.",
+            attempts, scan_uuid
+        )
+        return {
+            "scan_uuid": scan_uuid
+        }
 
     async def batch_investigate(self, urls_file, private=False):
         output_file = open(f"{Path(urls_file).stem}.csv", "w")
@@ -132,10 +138,12 @@ class UrlScan:
 
             for i, result in enumerate(all_results):
                 result = result[0]
-                if result == {}:
-                    self.logger.info("Investigation of %s failed, skipping...", urls[i].rstrip())
-                    output.writerow([urls[i].rstrip(), "", "", ""])
-                else:
-                    output.writerow([urls[i].rstrip(), result["report"], result["screenshot"], result["dom"]])
+
+                report_url = result.get("report")
+                if not report_url:
+                    scan_uuid = result.get("scan_uuid")
+                    if scan_uuid:
+                        report_url = f"https://urlscan.io/result/{scan_uuid}/"
+                output.writerow([urls[i].rstrip(), report_url, result.get("screenshot"), result.get("dom")])
 
             output_file.close()

@@ -28,11 +28,12 @@ async def execute(args, api_key, data_dir, log_level):
         if args.investigate:
             investigation_result = await url_scan.investigate(args.investigate, args.private)
             if investigation_result == {}:
-                print(f"\nInvestigation failed. Please try again later.")
+                print("\nInvestigation failed. Please try again later.")
             else:
-                print(f"\nScan report URL:\t\t{investigation_result['report']}")
-                print(f"Screenshot download location:\t{investigation_result['screenshot']}")
-                print(f"DOM download location:\t\t{investigation_result['dom']}\n")
+                if investigation_result.keys() >= {"report", "screenshot", "dom"}:
+                    print(f"\nScan report URL:\t\t{investigation_result['report']}")
+                    print(f"Screenshot download location:\t{investigation_result['screenshot']}")
+                    print(f"DOM download location:\t\t{investigation_result['dom']}\n")
 
         elif args.retrieve:
             retrieve_result = await url_scan.fetch_result(args.retrieve)
