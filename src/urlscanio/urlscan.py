@@ -19,8 +19,15 @@ class UrlScan:
         self.data_dir = data_dir
         self.session = aiohttp.ClientSession(trust_env=True)
         self.verbose = True
+
         self.logger = logging.getLogger("urlscanio")
-        self.logger.setLevel(log_level)
+        self.logger.propagate = False
+        formatter = logging.Formatter("%(message)s")
+        handler = logging.StreamHandler()
+        handler.setFormatter(formatter)
+        handler.setLevel(log_level)
+
+        self.logger.addHandler(handler)
 
     async def __aenter__(self):
         return self
