@@ -7,7 +7,7 @@ from pathlib import Path
 import aiofiles
 import aiohttp
 
-logging.basicConfig()
+logging.basicConfig(format="%(asctime)s %(message)s", datefmt="%H:%M:%S")
 
 class UrlScan:
     URLSCAN_API_URL = "https://urlscan.io/api/v1"
@@ -19,15 +19,8 @@ class UrlScan:
         self.data_dir = data_dir
         self.session = aiohttp.ClientSession(trust_env=True)
         self.verbose = True
-
         self.logger = logging.getLogger("urlscanio")
-        self.logger.propagate = False
-        formatter = logging.Formatter("%(message)s")
-        handler = logging.StreamHandler()
-        handler.setFormatter(formatter)
-        handler.setLevel(log_level)
-
-        self.logger.addHandler(handler)
+        self.logger.setLevel(log_level)
 
     async def __aenter__(self):
         return self
