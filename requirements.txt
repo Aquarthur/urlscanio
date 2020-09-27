@@ -29,4 +29,3 @@ typing-extensions==3.7.4.2
 wcwidth==0.2.5
 wrapt==1.12.1
 yarl==1.5.1
-
