@@ -25,4 +25,4 @@ pytest-mock==2.0.0
 six==1.14.0
 wcwidth==0.1.8
 wrapt==1.11.2
-yarl==1.4.2
+yarl==1.6.3
