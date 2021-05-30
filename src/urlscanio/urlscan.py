@@ -74,6 +74,7 @@ class UrlScan:
         if status == 200:
             await self.save_file(screenshot_location, response)
             return str(screenshot_location)
+        self.logger.info("Could not download screenshot from %s, please visit URL for more info", screenshot_url)
 
     async def download_dom(self, scan_uuid, dom_url):
         self.logger.info("Downloading DOM from %s", dom_url)
@@ -82,6 +83,7 @@ class UrlScan:
         if status == 200:
             await self.save_file(dom_location, response)
             return str(dom_location)
+        self.logger.info("Could not download DOM from %s, please visit URL for more info", dom_url)
 
     async def investigate(self, url, private=False):
         self.logger.critical("Starting investigation of %s, this may take a while...", url)
