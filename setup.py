@@ -22,7 +22,7 @@ TESTS_REQUIRES = [
 
 setuptools.setup(
     name="urlscanio",
-    version="0.2.0",
+    version="0.2.1",
     description=("Command line utility to get information about a website "
                  "using URLScan.io's APIs."),
     long_description=open("README.md", "r", encoding="utf-8").read(),
