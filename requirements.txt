@@ -34,7 +34,7 @@ pytest==6.2.4
 pytest-asyncio==0.15.1
 pytest-mock==3.6.1
 readme-renderer==26.0
-requests==2.24.0
+requests==2.25.1
 requests-toolbelt==0.9.1
 rfc3986==1.4.0
 SecretStorage==3.1.2
