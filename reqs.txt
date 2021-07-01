@@ -10,7 +10,7 @@ colorama==0.4.3
 idna==2.10
 iniconfig==1.0.1
 isort<5,>=4.2.5
-lazy-object-proxy==1.4.*
+lazy-object-proxy==1.6.*
 mccabe==0.6.1
 more-itertools==8.4.0
 multidict==4.7.6
