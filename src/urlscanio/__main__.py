@@ -27,9 +27,13 @@ async def execute(args, api_key, data_dir, log_level):
     async with urlscan.UrlScan(api_key=api_key, data_dir=data_dir, log_level=log_level) as url_scan:
         if args.investigate:
             investigation_result = await url_scan.investigate(args.investigate, args.private)
-            print(f"\nScan report URL:\t\t{investigation_result['report']}")
-            print(f"Screenshot download location:\t{investigation_result['screenshot']}")
-            print(f"DOM download location:\t\t{investigation_result['dom']}\n")
+            if investigation_result == {}:
+                print("\nInvestigation failed. Please try again later.")
+            else:
+                if investigation_result.keys() >= {"report", "screenshot", "dom"}:
+                    print(f"\nScan report URL:\t\t{investigation_result['report']}")
+                    print(f"Screenshot download location:\t{investigation_result['screenshot']}")
+                    print(f"DOM download location:\t\t{investigation_result['dom']}\n")
 
         elif args.retrieve:
             retrieve_result = await url_scan.fetch_result(args.retrieve)
@@ -39,4 +43,11 @@ async def execute(args, api_key, data_dir, log_level):
 
         elif args.submit:
             scan_uuid = await url_scan.submit_scan_request(args.submit, args.private)
-            print(f"\nScan UUID:\t\t{scan_uuid}\n")
+            if scan_uuid == "":
+                print(f"\nFailed to submit scan request for {args.submit}. Please try again later.\n")
+            else:
+                print(f"\nScan UUID:\t\t{scan_uuid}\n")
+
+        elif args.batch_investigate:
+            await url_scan.batch_investigate(args.batch_investigate, args.private)
+            print(f"Investigation outputs written to {Path(args.batch_investigate).stem}.csv")
