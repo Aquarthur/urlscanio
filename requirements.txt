@@ -18,7 +18,7 @@ multidict==5.1.0
 packaging==20.1
 Pillow==7.0.0
 pluggy==0.13.1
-py==1.8.1
+py==1.10.0
 pylint==2.4.4
 pyparsing==2.4.7
 pytest==6.1.2
