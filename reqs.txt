@@ -22,7 +22,7 @@ pylint==2.5.3
 pyparsing==2.4.7
 pytest==6.0.1
 pytest-asyncio==0.14.0
-pytest-mock==3.2.0
+pytest-mock==3.6.1
 six==1.15.0
 toml==0.10.1
 typing-extensions==3.7.4.2
