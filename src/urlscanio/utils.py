@@ -37,6 +37,15 @@ def create_arg_parser():
 
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
+        "-b", "--batch-investigate",
+        help=(
+            "Investigates the URLs included in the specified file. Returns an output CSV "
+            "containing report, DOM, and screenshot locations for each URL. Please keep "
+            "your UrlScan.io rate limit in mind when running this."
+        ),
+        type=str
+    )
+    group.add_argument(
         "-i", "--investigate",
         help=(
             "Investigate the specified URL. Returns the report URL and the locations of the "
