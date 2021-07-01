@@ -13,7 +13,7 @@ isort<5,>=4.2.5
 lazy-object-proxy==1.4.*
 mccabe==0.6.1
 more-itertools==8.4.0
-multidict==4.7.6
+multidict==5.1.0
 packaging==20.4
 Pillow==7.2.0
 pluggy==0.13.1
