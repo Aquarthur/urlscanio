@@ -1,5 +1,10 @@
 
+aiohttp==3.7.2
 
+
+aiofiles==0.6.0
+
+aioresponses==0.7.1
 
 
 
@@ -8,8 +13,12 @@ async-timeout==3.0.1
 atomicwrites==1.3.0
 attrs==20.3.0
 chardet==3.0.4
-colorama==0.4.3
+colorama==0.4.4
 idna==2.9
+
+
+
+
 isort==5.9.1
 
 
@@ -20,8 +29,13 @@ mccabe==0.6.1
 more-itertools==8.6.0
 multidict==5.1.0
 packaging==20.1
-Pillow==7.0.0
+Pillow==8.0.1
 pluggy==0.13.1
+
+
+
+
+
 
 
 pylint==2.9.3
@@ -29,19 +43,11 @@ pylint==2.9.3
 py==1.10.0
 
 pyparsing==2.4.7
+
 pytest==6.1.2
 pytest-asyncio==0.10.0
 pytest-mock==3.6.1
 six==1.14.0
 wcwidth==0.1.8
-wrapt==1.12.1
+wrapt==1.11.2
 yarl==1.4.2
-
-
-aiohttp==3.7.2
-
-
-aiofiles==0.6.0
-
-aioresponses==0.7.1
-
