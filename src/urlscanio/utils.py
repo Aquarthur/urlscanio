@@ -71,6 +71,12 @@ def create_arg_parser():
         help="Submit a search request for the given query.",
         type=str
     )
+    group.add_argument(
+        "-g", "--get-result",
+        help=(
+            "Get the scan report for the provided UUID. Returns report JSON."
+        )
+    )
 
     return parser
 

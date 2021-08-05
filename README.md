@@ -76,6 +76,68 @@ urlscanio -b test.txt
 urlscanio --batch-investigate test.txt
 ```
 
+### Search
+
+Perform a [search query](https://urlscan.io/docs/search/). Results are returned as JSON.
+
+```sh
+urlscanio -q 'domain:urlscan.io' | jq '.results[0]'
+{
+  "indexedAt": "2021-08-05T14:05:09.184Z",
+  "task": {
+    "visibility": "public",
+    "method": "manual",
+    "domain": "148.251.45.170",
+    "time": "2021-08-05T14:02:49.556Z",
+    "uuid": "0e38487e-6514-431d-a305-f2de2f6db348",
+    "url": "http://148.251.45.170"
+  },
+  "stats": {
+    "uniqIPs": 7,
+    "consoleMsgs": 0,
+    "uniqCountries": 1,
+    "dataLength": 2134654,
+    "encodedDataLength": 940515,
+    "requests": 49
+  },
+  "page": {
+    "country": "DE",
+    "server": "nginx",
+    "domain": "urlscan.io",
+    "ip": "148.251.45.170",
+    "mimeType": "text/html",
+    "asnname": "HETZNER-AS, DE",
+    "asn": "AS24940",
+    "url": "https://urlscan.io/",
+    "ptr": "urlscan.io",
+    "status": "200"
+  },
+  "_id": "0e38487e-6514-431d-a305-f2de2f6db348",
+  "sort": [
+    1628172169556,
+    "0e38487e-6514-431d-a305-f2de2f6db348"
+  ],
+  "result": "https://urlscan.io/api/v1/result/0e38487e-6514-431d-a305-f2de2f6db348/",
+  "screenshot": "https://urlscan.io/screenshots/0e38487e-6514-431d-a305-f2de2f6db348.png"
+}
+```
+
+### Get Scan Results
+
+You can get the scan result data for a given scan UUID.
+
+```sh
+urlscanio -g 0e38487e-6514-431d-a305-f2de2f6db348 | jq '.verdicts.overall'
+{
+  "score": 0,
+  "categories": [],
+  "brands": [],
+  "tags": [],
+  "malicious": false,
+  "hasVerdicts": 0
+}
+```
+
 ### Verbose mode
 
 `urlscanio` includes a verbosity flag which takes 3 possible values: 0 (critical), 1 (info), and 2 (debug). This can be used with of the above commands to produce varying amounts of

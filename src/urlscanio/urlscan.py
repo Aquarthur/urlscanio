@@ -57,9 +57,13 @@ class UrlScan:
             return ""
         return body["uuid"]
 
-    async def fetch_result(self, scan_uuid):
+    async def get_result_data(self, scan_uuid):
         _, response = await self.execute("GET", f"{self.URLSCAN_API_URL}/result/{scan_uuid}")
         body = json.loads(response)
+        return body
+
+    async def fetch_result(self, scan_uuid):
+        body = await self.get_result_data(scan_uuid)
         return {
             "scan_uuid": scan_uuid,
             "report": body["task"]["reportURL"],

@@ -57,3 +57,8 @@ async def execute(args, api_key, data_dir, log_level):
             results = await url_scan.search(args.search_query)
             if results:
                 print(json.dumps(results, indent=1, default=str))
+
+        elif args.get_result:
+            results = await url_scan.get_result_data(args.get_result)
+            if results:
+                print(json.dumps(results, indent=1, default=str))
