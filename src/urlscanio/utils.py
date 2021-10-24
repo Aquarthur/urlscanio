@@ -72,9 +72,9 @@ def create_arg_parser():
         type=str
     )
     group.add_argument(
-        "-g", "--get-result",
+        "--get-report",
         help=(
-            "Get the scan report for the provided UUID. Returns report JSON."
+            "Get the scan report for the provided UUID, in JSON format."
         )
     )
 
