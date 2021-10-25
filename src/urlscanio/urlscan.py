@@ -28,12 +28,13 @@ class UrlScan:
     async def __aexit__(self, *excinfo):
         await self.session.close()
 
-    async def execute(self, method, url, headers=None, payload=None):
+    async def execute(self, method, url, headers=None, payload=None, params={}):
         async with self.session.request(
                 method=method,
                 url=url,
                 headers=headers,
                 data=json.dumps(payload),
+                params=params,
                 ssl=False) as response:
             self.logger.debug("%s request made to %s with %d response code", method, url, response.status)
             return response.status, await response.read()
@@ -56,9 +57,13 @@ class UrlScan:
             return ""
         return body["uuid"]
 
-    async def fetch_result(self, scan_uuid):
+    async def get_result_data(self, scan_uuid):
         _, response = await self.execute("GET", f"{self.URLSCAN_API_URL}/result/{scan_uuid}")
         body = json.loads(response)
+        return body
+
+    async def fetch_result(self, scan_uuid):
+        body = await self.get_result_data(scan_uuid)
         return {
             "scan_uuid": scan_uuid,
             "report": body["task"]["reportURL"],
@@ -142,3 +147,16 @@ class UrlScan:
                 output.writerow([urls[i].rstrip(), report_url, result.get("screenshot"), result.get("dom")])
 
             output_file.close()
+
+    async def search(self, query: str):
+        headers = {"API-Key": self.api_key}
+        params = {"q": query}
+        status, response = await self.execute("GET", f"{self.URLSCAN_API_URL}/search/", headers, params=params)
+        if status == 429:
+            self.logger.critical("UrlScan did not accept scan request for %s, reason: too many requests", query)
+            return ""
+        body = json.loads(response)
+        if status >= 400:
+            self.logger.critical("UrlScan did not accept scan request for %s, reason: %s", query, body["message"])
+            return ""
+        return body

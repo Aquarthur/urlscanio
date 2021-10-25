@@ -76,6 +76,22 @@ urlscanio -b test.txt
 urlscanio --batch-investigate test.txt
 ```
 
+### Search
+
+Perform a [search query](https://urlscan.io/docs/search/). Results are returned as JSON.
+
+```sh
+urlscanio -q 'domain:urlscan.io' 
+```
+
+### Get Scan Results
+
+You can get the scan result data for a given scan UUID.
+
+```sh
+urlscanio -g 0e38487e-6514-431d-a305-f2de2f6db348
+```
+
 ### Verbose mode
 
 `urlscanio` includes a verbosity flag which takes 3 possible values: 0 (critical), 1 (info), and 2 (debug). This can be used with of the above commands to produce varying amounts of
