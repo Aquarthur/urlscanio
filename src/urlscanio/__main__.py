@@ -59,6 +59,6 @@ async def execute(args, api_key, data_dir, log_level):
                 print(json.dumps(results, indent=1, default=str))
 
         elif args.get_report:
-            results = await url_scan.get_result_data(args.get_result)
+            results = await url_scan.get_result_data(args.get_report)
             if results:
                 print(json.dumps(results, indent=1, default=str))
